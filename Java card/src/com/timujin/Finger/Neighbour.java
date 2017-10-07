@@ -19,6 +19,10 @@ public class Neighbour {
         this.mx=mx; this.my=my;this.dir=dir;this.rc=rc;
     }
 
+    public float match (Neighbour other) {
+        return  0;
+    }
+
     public void initialize(byte[] inBuffer, int start, int fin) {
         this.set(
                 inBuffer[start],

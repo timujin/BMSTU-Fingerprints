@@ -22,6 +22,9 @@ public class FingerprintApplet extends BaseApplet {
 
     public void process(APDU apdu) {
         byte[] buffer = apdu.getBuffer();
+        algo.initialize_candidate(buffer);
+        System.out.print("candidate:\n");
+        System.out.print(algo.candidate.dump());
         //byte resp = check(buffer[ISO7816.OFFSET_CDATA]);
         byte resp = algo.match();
 
