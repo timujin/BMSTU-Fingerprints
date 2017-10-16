@@ -13,7 +13,7 @@ public class FingerprintAlgo {
     public static final float thresnold1 = 150;
     public static final float thresnold2 = 6;
     public static final float thresnold3 = 5;
-    public static final float thresnold4 = 5;
+    public static final int thresnold4 = 5;
     public static final float weight1 = 1;
     public static final float weight2 = 1;
     public static final float weight3 = 1;

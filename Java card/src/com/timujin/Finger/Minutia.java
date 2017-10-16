@@ -83,7 +83,7 @@ public class Minutia {
             float mostSimilarDissimilarity = -1;
             for (int jindex=0; jindex<5; jindex++) {
                 if (this.isMatchedR(jindex)) continue;
-                float dissimilarity = this.neigh[iindex].match(other.neigh[jindex]);
+                float dissimilarity = Neighbour.match(this,other, this.neigh[iindex], other.neigh[jindex]);
                 if (dissimilarity == -1) continue;
                 if (mostSimilarDissimilarity == -1 || mostSimilarDissimilarity > dissimilarity) {
                     mostSimilarIndex = jindex;
