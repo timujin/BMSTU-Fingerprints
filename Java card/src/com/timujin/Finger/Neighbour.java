@@ -11,16 +11,16 @@ import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 public class Neighbour {
     public static final int NEIGHBOUR_SIZE = 4;
 
-    public byte mx;
-    public byte my;
-    public byte dir;
-    public byte rc;
+    public int mx;
+    public int my;
+    public int dir;
+    public int rc;
 
     public Neighbour(){
         this.mx=0; this.my=0;this.dir=0;this.rc=0;
     }
 
-    public void set(byte mx, byte my, byte dir, byte rc) {
+    public void set(int mx, int my, int dir, int rc) {
         this.mx=mx; this.my=my;this.dir=dir;this.rc=rc;
     }
 
@@ -66,8 +66,16 @@ public class Neighbour {
         Vec up = new Vec (0,-1);
         Vec Pdir = Neighbour.rotate(up, P.dir);
         Vec Ndir = Neighbour.rotate(up, N.dir);
+        Pdir.v1 = -Pdir.v1;
+        Ndir.v1 = -Ndir.v1;
         return Neighbour.angle(Pdir, Ndir);
     }
+
+    /*    def orientation_relative_angle(self, P,N):
+        up = (0,-1)
+        Pdir = self.rotate(up, P["dir"])
+        Ndir = self.rotate(up, N["dir"])
+        return self.angle(Pdir, Ndir) # maybe inaccurate*/
 
     private static int ridge_count(Minutia P, Neighbour N) {
         return N.rc;
@@ -110,33 +118,35 @@ public class Neighbour {
         int RcDiff = Math.abs(Rc2-Rc1);
 
         EdDiff = bounding_box_1(EdDiff);
-        if (EdDiff == -1) return -1;
+        if (EdDiff == -1) return FingerprintAlgo.NotSimilarAtAll;
         DraDiff = bounding_box_2(DraDiff);
-        if (DraDiff == -1) return -1;
+        if (DraDiff == -1) return FingerprintAlgo.NotSimilarAtAll;
         OraDiff = bounding_box_3(OraDiff);
-        if (OraDiff == -1) return -1;
+        if (OraDiff == -1) return FingerprintAlgo.NotSimilarAtAll;
         RcDiff = bounding_box_4(RcDiff);
-        if (RcDiff == -1) return -1;
+        if (RcDiff == -1) return FingerprintAlgo.NotSimilarAtAll;
 
         float wEdDiff = EdDiff * FingerprintAlgo.weight1;
         double wDraDiff = DraDiff * FingerprintAlgo.weight1;
         double wOraDiff = OraDiff * FingerprintAlgo.weight1;
         float wRcDiff = RcDiff * FingerprintAlgo.weight1;
-        return wEdDiff + (float)wDraDiff + (float)wOraDiff + wRcDiff;
+        float res = wEdDiff + (float)wDraDiff + (float)wOraDiff + wRcDiff;
+        //System.out.printf("Neighbour matching res %f...\n", res);
+        return res;
     }
 
 
 
     public void initialize(byte[] inBuffer, int start, int fin) {
         this.set(
-                inBuffer[start],
-                inBuffer[start+1],
-                inBuffer[start+2],
-                inBuffer[start+3]
+                inBuffer[start]+128,
+                inBuffer[start+1]+128,
+                inBuffer[start+2]+128,
+                inBuffer[start+3]+128
         );
     }
 
     public String dump() {
-        return String.format("N: %d, %d, %d, %d", mx+128,my+128,dir+128,rc+128);
+        return String.format("N: %d, %d, %d, %d", mx,my,dir,rc);
     }
 }

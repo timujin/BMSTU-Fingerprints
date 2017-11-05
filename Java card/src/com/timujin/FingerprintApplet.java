@@ -12,7 +12,7 @@ public class FingerprintApplet extends BaseApplet {
     private FingerprintApplet(byte[] bArray, short bOffset, byte bLength) {
         this.algo = new FingerprintAlgo();
         algo.initialize_prototype(bArray);
-        System.out.print(algo.prototype.dump());
+        //System.out.print(algo.prototype.dump());
         this.register();
     }
 
@@ -23,10 +23,13 @@ public class FingerprintApplet extends BaseApplet {
     public void process(APDU apdu) {
         byte[] buffer = apdu.getBuffer();
         algo.initialize_candidate(buffer);
-        System.out.print("candidate:\n");
-        System.out.print(algo.candidate.dump());
+        //System.out.print("candidate:\n");
+        //System.out.print(algo.candidate.dump());
         //byte resp = check(buffer[ISO7816.OFFSET_CDATA]);
         byte resp = algo.match();
+        algo.reset();
+
+        System.out.printf("Algorithm finished with %d\n", resp);
 
         buffer[0] = resp;
 

@@ -3,9 +3,9 @@ package com.timujin.Finger;
 import com.timujin.FingerprintAlgo;
 
 public class Minutia {
-    public byte mx;
-    public byte my;
-    public byte dir;
+    public int mx;
+    public int my;
+    public int dir;
     public Neighbour[] neigh;
 
     public Minutia() {
@@ -29,9 +29,9 @@ public class Minutia {
 
     public void initialize(byte[] inBuffer, int start, int fin) {
         int i = start;
-        this.mx=inBuffer[i]; i++;
-        this.my=inBuffer[i]; i++;
-        this.dir=inBuffer[i]; i++;
+        this.mx=inBuffer[i] +128; i++;
+        this.my=inBuffer[i] +128; i++;
+        this.dir=inBuffer[i] +128; i++;
         int k = 0;
         while (i<fin) {
             this.neigh[k].initialize(inBuffer, i, i+Neighbour.NEIGHBOUR_SIZE);
@@ -84,7 +84,8 @@ public class Minutia {
             for (int jindex=0; jindex<5; jindex++) {
                 if (this.isMatchedR(jindex)) continue;
                 float dissimilarity = Neighbour.match(this,other, this.neigh[iindex], other.neigh[jindex]);
-                if (dissimilarity == -1) continue;
+                System.out.printf("Neighbour diss %f...\n", dissimilarity);
+                //if (dissimilarity == FingerprintAlgo.NotSimilarAtAll) continue;
                 if (mostSimilarDissimilarity == -1 || mostSimilarDissimilarity > dissimilarity) {
                     mostSimilarIndex = jindex;
                     mostSimilarDissimilarity = dissimilarity;
@@ -103,7 +104,7 @@ public class Minutia {
     }
 
     public String dump() {
-        String res = String.format("M: %d,%d,%d; (", mx+128,my+128,dir+128);
+        String res = String.format("M: %d,%d,%d; (", mx,my,dir);
         for (Neighbour n: neigh
              ) {
             res += n.dump() + "; ";
