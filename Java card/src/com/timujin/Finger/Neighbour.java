@@ -58,6 +58,7 @@ public class Neighbour {
     private static double distance_relative_angle(Minutia P, Neighbour N) {
         Vec up = new Vec (0,-1);
         Vec Pdir = Neighbour.rotate(up,P.dir);
+        Pdir.v1 = -Pdir.v1;
         Vec D = Neighbour.diff(P,N);
         return Neighbour.angle(new Vec(-D.v0, -D.v1), Pdir);
     }
@@ -96,7 +97,7 @@ public class Neighbour {
             return -1;
         return (diff / FingerprintAlgo.thresnold3);
     }
-    private static int bounding_box_4(int diff) {
+    private static float bounding_box_4(float diff) {
         if (diff >= FingerprintAlgo.thresnold4)
             return -1;
         return (diff / FingerprintAlgo.thresnold4);
@@ -115,7 +116,7 @@ public class Neighbour {
         float EdDiff = Math.abs(Ed2-Ed1);
         double DraDiff= Math.abs(Dra2-Dra1);
         double OraDiff= Math.abs(Ora2-Ora1);
-        int RcDiff = Math.abs(Rc2-Rc1);
+        float RcDiff = Math.abs(Rc2-Rc1);
 
         EdDiff = bounding_box_1(EdDiff);
         if (EdDiff == -1) return FingerprintAlgo.NotSimilarAtAll;
@@ -127,9 +128,9 @@ public class Neighbour {
         if (RcDiff == -1) return FingerprintAlgo.NotSimilarAtAll;
 
         float wEdDiff = EdDiff * FingerprintAlgo.weight1;
-        double wDraDiff = DraDiff * FingerprintAlgo.weight1;
-        double wOraDiff = OraDiff * FingerprintAlgo.weight1;
-        float wRcDiff = RcDiff * FingerprintAlgo.weight1;
+        double wDraDiff = DraDiff * FingerprintAlgo.weight2;
+        double wOraDiff = OraDiff * FingerprintAlgo.weight3;
+        float wRcDiff = RcDiff * FingerprintAlgo.weight4;
         float res = wEdDiff + (float)wDraDiff + (float)wOraDiff + wRcDiff;
         //System.out.printf("Neighbour matching res %f...\n", res);
         return res;

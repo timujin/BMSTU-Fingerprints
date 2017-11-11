@@ -24,10 +24,10 @@ public class FingerprintAlgo {
     public static final float thresnold2 = (float)13.72104482880197;
     public static final float thresnold3 = (float)1.03034591789699;
     public static final int thresnold4 = 2;
-    public static final float weight1 = (float) 10.0/20;
-    public static final float weight2 = (float) 1.0/20;
-    public static final float weight3 =  (float) 1.0/20;
-    public static final float weight4 = (float) 8.0/20;
+    public static final float weight1 = (float)0.5;
+    public static final float weight2 = (float) 0.05;
+    public static final float weight3 =  (float) 0.05;
+    public static final float weight4 = (float) 0.4;
     public static final float NotSimilarAtAll = 999999999;
 
     public static final byte Matched = 42;
@@ -101,15 +101,15 @@ public class FingerprintAlgo {
         int minutiaeMatched = 0;
         System.out.printf("start\n");
 
-        for (int cindex=0; cindex < 10; cindex++) {
-        //for (int cindex=1; cindex < 2; cindex++) {
+        //for (int cindex=0; cindex < 10; cindex++) {
+        for (int cindex=0; cindex < 1; cindex++) {
             if (this.isMatchedC(cindex)) continue;
             int mostSimilarIndex = -1;
             float mostSimilarDissimilarity = -1;
             System.out.printf("Matching min %d...\n", cindex);
 
-            for (int rindex=0; rindex<10; rindex++) {
-            //for (int rindex=6; rindex<7; rindex++) {
+            //for (int rindex=0; rindex<10; rindex++) {
+            for (int rindex=8; rindex<9; rindex++) {
                 if (this.isMatchedR(rindex)) continue;
                 System.out.printf("...with %d...", rindex);
                 float dissimilarity = this.prototype.minutuae[cindex].match(this.candidate.minutuae[rindex]);

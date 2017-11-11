@@ -21,8 +21,9 @@ public class Main {
             //byte[] finger2 = TestingData1.data.get(TestingData0.data.size() - i - 1);
             byte[] finger2 = TestingData1.data.get(i);
             byte result = Test.compare_fingers(finger1, finger2);
-            if (result == 42)
-                successes +=1;
+            if (result == 42) {
+                System.out.print(i);
+                successes +=1;}
         }
         System.out.print("\n");
         System.out.print(successes);
