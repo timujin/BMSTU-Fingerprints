@@ -75,17 +75,22 @@ public class Minutia {
 
 
     public float match(Minutia other) {
+        // Reset
+        this.imatchedCs = 0;
+        this.imatchedRs = 0;
         float totalDissimilarity = 0;
         int neighboursMatched = 0;
         for (int iindex=0; iindex<5; iindex++) {
+            //System.out.printf("\tMatching neigh %d...\n", iindex);
             if (this.isMatchedC(iindex)) continue;
             int mostSimilarIndex = -1;
             float mostSimilarDissimilarity = -1;
             for (int jindex=0; jindex<5; jindex++) {
-                if (this.isMatchedR(jindex)) continue;
+                //System.out.printf("\t... with %d...", jindex);
+                if (this.isMatchedR(jindex)) { /*System.out.printf("\talready matched\n");*/ continue; }
                 float dissimilarity = Neighbour.match(this,other, this.neigh[iindex], other.neigh[jindex]);
-                System.out.printf("Neighbour diss %f...\n", dissimilarity);
-                //if (dissimilarity == FingerprintAlgo.NotSimilarAtAll) continue;
+                //System.out.printf("\tNeighbour diss %f...\n", dissimilarity);
+                if (dissimilarity == FingerprintAlgo.NotSimilarAtAll) continue;
                 if (mostSimilarDissimilarity == -1 || mostSimilarDissimilarity > dissimilarity) {
                     mostSimilarIndex = jindex;
                     mostSimilarDissimilarity = dissimilarity;
@@ -97,7 +102,7 @@ public class Minutia {
             this.addMatchedR(mostSimilarIndex);
             totalDissimilarity += mostSimilarDissimilarity;
             neighboursMatched+=1;
-            if (neighboursMatched > FingerprintAlgo.N)
+            if (neighboursMatched >= FingerprintAlgo.N)
                 return (totalDissimilarity / neighboursMatched);
         }
         return FingerprintAlgo.NotSimilarAtAll;

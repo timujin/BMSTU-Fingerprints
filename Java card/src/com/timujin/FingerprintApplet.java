@@ -29,7 +29,7 @@ public class FingerprintApplet extends BaseApplet {
         byte resp = algo.match();
         algo.reset();
 
-        System.out.printf("Algorithm finished with %d\n", resp);
+        //System.out.printf("Algorithm finished with %d\n", resp);
 
         buffer[0] = resp;
 

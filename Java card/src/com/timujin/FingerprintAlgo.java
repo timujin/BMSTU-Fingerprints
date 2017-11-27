@@ -99,21 +99,21 @@ public class FingerprintAlgo {
         //return FingerprintAlgo.Mismatched;
         float totalDissimilarity = 0;
         int minutiaeMatched = 0;
-        System.out.printf("start\n");
+        //System.out.printf("start\n");
 
-        //for (int cindex=0; cindex < 10; cindex++) {
-        for (int cindex=0; cindex < 1; cindex++) {
+        for (int cindex=0; cindex < 10; cindex++) {
+        //for (int cindex=0; cindex < 1; cindex++) {
             if (this.isMatchedC(cindex)) continue;
             int mostSimilarIndex = -1;
             float mostSimilarDissimilarity = -1;
-            System.out.printf("Matching min %d...\n", cindex);
+            //System.out.printf("Matching min %d...\n", cindex);
 
-            //for (int rindex=0; rindex<10; rindex++) {
-            for (int rindex=8; rindex<9; rindex++) {
+            for (int rindex=0; rindex<10; rindex++) {
+            //for (int rindex=8; rindex<9; rindex++) {
                 if (this.isMatchedR(rindex)) continue;
-                System.out.printf("...with %d...", rindex);
+                //System.out.printf("...with %d...\n", rindex);
                 float dissimilarity = this.prototype.minutuae[cindex].match(this.candidate.minutuae[rindex]);
-                System.out.printf("diss = %f\n", dissimilarity);
+                //System.out.printf("diss = %f\n", dissimilarity);
                 if (mostSimilarDissimilarity == -1 || mostSimilarDissimilarity > dissimilarity) {
                     mostSimilarIndex = rindex;
                     mostSimilarDissimilarity = dissimilarity;
@@ -128,7 +128,7 @@ public class FingerprintAlgo {
             if (this.stoppingConditions(totalDissimilarity, mostSimilarDissimilarity, minutiaeMatched))
                 return  FingerprintAlgo.Matched;
         }
-        System.out.printf("Matched");
+        //System.out.printf("Matched");
         float finalMatch = totalDissimilarity / minutiaeMatched;
         if (finalMatch < FingerprintAlgo.finalMatchThreshold)
             return FingerprintAlgo.Matched;
